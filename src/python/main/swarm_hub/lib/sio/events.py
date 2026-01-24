@@ -1,0 +1,6 @@
+
+
+
+class Events:
+
+	errors = "errors"
