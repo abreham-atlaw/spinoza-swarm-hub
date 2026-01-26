@@ -7,11 +7,12 @@ from rest_framework.exceptions import ValidationError
 from di.core_providers import CoreProviders
 from di.misc_providers import logger
 from lib.sio.events import Events
+from .swarm_server import SwarmServer
 
 
 class SIOHandler(ABC):
 
-	_sio = CoreProviders.provide_server()
+	_sio: SwarmServer = CoreProviders.provide_server()
 
 	@abstractmethod
 	def _handle(self, sid: str, data: typing.Any = None):

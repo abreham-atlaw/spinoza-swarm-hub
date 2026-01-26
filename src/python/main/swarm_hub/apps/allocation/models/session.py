@@ -13,3 +13,6 @@ class Session(models.Model):
 	model_alpha: float = models.FloatField(null=True)
 	is_active: bool = models.BooleanField(default=True)
 
+	@property
+	def room(self) -> str:
+		return self.id.hex

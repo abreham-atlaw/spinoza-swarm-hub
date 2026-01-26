@@ -12,7 +12,7 @@ from swarm_hub.wsgi_sio import application
 
 
 def main():
-	server = WSGIServer(("0.0.0.0", 8000), application)
+	server = WSGIServer(("0.0.0.0", 8888), application)
 	print("Starting gevent debug server on http://0.0.0.0:8000")
 	# run_with_reloader(server.serve_forever())
 	server.serve_forever()

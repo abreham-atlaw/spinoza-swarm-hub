@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
 	"apps.core",
 	"apps.allocation",
-	"apps.mca"
+	"apps.mca",
+	"apps.state_sharing"
 ]
 
 MIDDLEWARE = [

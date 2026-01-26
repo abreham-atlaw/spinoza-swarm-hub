@@ -20,7 +20,7 @@ class CreateSessionHandler(SIOHandler):
 
 		self.__session_repository.add_session(session)
 
-		self.__sio.enter_room(sid, session.id)
+		self.__sio.enter_room(sid, session.room)
 		self.__sio.emit(
 			"mca-start",
 			to=session.sid

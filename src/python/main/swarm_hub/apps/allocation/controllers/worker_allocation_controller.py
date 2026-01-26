@@ -6,13 +6,14 @@ from apps.allocation.serializers import SessionSerializer
 from apps.allocation.utils.session_repository import SessionRepository
 from di.core_providers import CoreProviders
 from lib.controller import ThreadController
+from lib.sio.swarm_server import SwarmServer
 
 
 class WorkerAllocationController(ThreadController):
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.__server = CoreProviders.provide_server()
+		self.__server: SwarmServer = CoreProviders.provide_server()
 		self.__session_repository: SessionRepository = CoreProviders.provide_session_repository()
 
 	def __get_unprepared_workers(self) -> typing.List[Worker]:
@@ -36,7 +37,7 @@ class WorkerAllocationController(ThreadController):
 		self.__session_repository.set_worker_stage(worker, Worker.Stage.setup)
 
 	def __run_worker(self, worker: Worker):
-		self.__server.enter_room(worker.sid, worker.session.id)
+		self.__server.enter_room(worker.sid, worker.session.room)
 		self.__server.emit(
 			Events.mca_start,
 			to=worker.sid

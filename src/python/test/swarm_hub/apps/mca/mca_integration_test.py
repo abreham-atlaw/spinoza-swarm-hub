@@ -13,13 +13,6 @@ from socketio import Client
 from di.misc_providers import logger
 
 
-class ServerThread(Process):
-
-	def run(self):
-		pass
-
-
-
 class QueenClientThread(Thread):
 
 	QUEUE_STATES = [
@@ -32,30 +25,32 @@ class QueenClientThread(Thread):
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.__client = Client()
-		self.__client.on(
+		self._client = Client(logger=True)
+		self._client.on(
 			"mca-start", self.__handle_mca_start
 		)
-		self.__client.on(
+		self._client.on(
 			"backpropagate", self.__handle_backpropagate
 		)
 
-	@staticmethod
-	def __handle_backpropagate(state: dict):
-		logger.info(f"[Queen]Backpropagate Received: {state}")
+	def __handle_backpropagate(self, state: dict):
+		self._log(f"Backpropagate Received: {state}")
 
 	def __handle_mca_start(self, data = None):
 		self.__queue_states()
 
+	def _log(self, message):
+		logger.info(f"[Queen]{message}")
+
 	def __queue_states(self):
 		for state in self.QUEUE_STATES:
-			self.__client.emit(
+			self._client.emit(
 				"queue",
 				data=state
 			)
 
 	def __create_session(self):
-		self.__client.emit(
+		self._client.emit(
 			"create-session",
 			data={
 				"branch": "branch-0",
@@ -65,11 +60,17 @@ class QueenClientThread(Thread):
 			}
 		)
 
+	def _run_tasks(self):
+		pass
+
 	def run(self):
 		logger.info(f"Starting Queen...")
-		self.__client.connect("http://127.0.0.1:8000")
+		self._client.connect("http://127.0.0.1:8888")
 		self.__create_session()
-		self.__client.wait()
+		sleep(20)
+
+		self._run_tasks()
+		self._client.wait()
 
 
 class WorkerClientThread(Thread):
@@ -86,56 +87,65 @@ class WorkerClientThread(Thread):
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.__client = Client()
-		self.__client.on(
+		self._client = Client()
+		self._client.on(
 			"setup", self.__handle_setup
 		)
-		self.__client.on(
+		self._client.on(
 			"mca-start", self.__handle_mca_start,
 		)
-		self.__client.on(
+		self._client.on(
 			"select", self.__handle_select
 		)
+
 		self.__id = random.randint(0, 100)
 
 	def __handle_mca_start(self, data = None):
-		self.__client.emit(
+		self._client.emit(
 			"select"
 		)
 
 	def __handle_setup(self, data = None):
-		logger.info(f"[Worker-{self.__id}]Setup Received: {data}")
-		self.__client.emit(
+		self._log(f"Setup Received: {data}")
+		self._client.emit(
 			"setup-complete"
 		)
 
 	def __handle_select(self, data = None):
-		logger.info(f"[Worker-{self.__id}]Select Received: {data}")
-		self.__client.emit(
+		self._log(f"Select Received: {data}")
+		self._client.emit(
 			"backpropagate",
 			next(filter(
 				lambda s: s["id"] == data["id"],
 				self.BACKPROPAGATE_STATES
 			))
 		)
-		self.__client.emit(
+		self._client.emit(
 			"select"
 		)
 
+	def _log(self, message):
+		logger.info(f"[Worker-{self.__id}]{message}")
+
 	def __register_client(self):
-		logger.info(f"[Worker-{self.__id}]Registering Worker...")
-		self.__client.emit(
+		self._log(f"Registering Worker...")
+		self._client.emit(
 			"register-worker",
 			data={
 				"branch": "branch-0",
 			}
 		)
 
+	def _run_tasks(self):
+		pass
+
 	def run(self):
-		logger.info(f"[Worker-{self.__id}]Starting Worker...")
-		self.__client.connect("http://127.0.0.1:8000")
+		self._log(f"Starting Worker...")
+		self._client.connect("http://127.0.0.1:8888")
 		self.__register_client()
-		self.__client.wait()
+		sleep(20)
+		self._run_tasks()
+		self._client.wait()
 
 
 class MCAIntegrationTest(test.TestCase):
