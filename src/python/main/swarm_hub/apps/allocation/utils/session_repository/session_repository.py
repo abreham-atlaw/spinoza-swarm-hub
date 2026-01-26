@@ -15,12 +15,27 @@ class SessionRepository(ABC):
 		pass
 
 	@abstractmethod
-	def get_sessions(self) -> typing.List[Session]:
+	def _get_sessions(self) -> typing.List[Session]:
 		pass
 
 	@abstractmethod
 	def get_workers(self) -> typing.List[Worker]:
 		pass
+
+	def get_sessions(self):
+		return list(filter(
+			lambda session: session.is_active,
+			self._get_sessions()
+		))
+
+	def disconnect_session(self, session: Session):
+		session.is_active = False
+
+	def get_session_by_sid(self, sid: str) -> Session:
+		return next(filter(
+			lambda session: session.sid == sid,
+			self.get_sessions()
+		))
 
 	def get_worker_by_sid(self, sid: str) -> Worker:
 		return next(filter(

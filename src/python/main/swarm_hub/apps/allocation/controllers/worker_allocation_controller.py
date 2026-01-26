@@ -3,9 +3,9 @@ import typing
 from apps.allocation.events import Events
 from apps.allocation.models import Worker
 from apps.allocation.serializers import SessionSerializer
+from apps.allocation.utils.session_repository import SessionRepository
 from di.core_providers import CoreProviders
 from lib.controller import ThreadController
-from utils.session_repository import SessionRepository
 
 
 class WorkerAllocationController(ThreadController):

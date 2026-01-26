@@ -3,9 +3,14 @@ import typing
 from django.db.models import Q
 
 from apps.allocation.models import Worker, Session
+from di.core_providers import CoreProviders
 from .session_repository import SessionRepository
 
 class DBSessionRepository(SessionRepository):
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.__sio = CoreProviders.provide_server()
 
 	def add_session(self, session: Session):
 		session.save()
@@ -13,8 +18,12 @@ class DBSessionRepository(SessionRepository):
 	def register_worker(self, worker: Worker):
 		worker.save()
 
-	def get_sessions(self) -> typing.List[Session]:
-		return list(Session.objects.all())
+	def _get_sessions(self) -> typing.List[Session]:
+		return Session.objects.all()
+
+	def disconnect_session(self, session: Session):
+		super().disconnect_session(session)
+		session.save()
 
 	def get_workers(self) -> typing.List[Worker]:
 		return list(Worker.objects.filter(

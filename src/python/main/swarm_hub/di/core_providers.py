@@ -1,24 +1,21 @@
-import logging
 import typing
-
-from socketio import Server
 
 from lib.cache.decorators import CacheDecorators
 from lib.controller import ThreadController
-from swarm_hub import settings
-from utils.session_repository import SessionRepository, DBSessionRepository
 
 
 class CoreProviders:
 
 	@staticmethod
-	def provide_server() -> Server:
+	def provide_server() -> 'SwarmServer':
 		from swarm_hub.sio import sio
-		return sio
+		from lib.sio.swarm_server import SwarmServer
+		return SwarmServer(sio)
 
 	@staticmethod
 	@CacheDecorators.singleton()
-	def provide_session_repository() -> SessionRepository:
+	def provide_session_repository() -> 'SessionRepository':
+		from apps.allocation.utils.session_repository import DBSessionRepository
 		return DBSessionRepository()
 
 	@staticmethod

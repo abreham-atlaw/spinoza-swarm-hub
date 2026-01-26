@@ -1,9 +1,9 @@
 import typing
 
 from apps.allocation.models import Worker
+from apps.allocation.utils.session_repository import SessionRepository
 from di.core_providers import CoreProviders
 from lib.sio import SIOHandler
-from utils.session_repository import SessionRepository
 
 
 class RegisterWorkerHandler(SIOHandler):

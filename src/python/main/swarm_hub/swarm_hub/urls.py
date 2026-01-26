@@ -28,7 +28,7 @@ urlpatterns = [
 
 sio_mapping_modules = [
 	"apps.allocation.urls",
-	"apps.core.urls",
+	"apps.mca.urls",
 ]
 
 for module in sio_mapping_modules:

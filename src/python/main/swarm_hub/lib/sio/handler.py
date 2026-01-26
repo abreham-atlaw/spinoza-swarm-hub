@@ -18,8 +18,8 @@ class SIOHandler(ABC):
 		pass
 
 	@classmethod
-	def handle(cls: typing.Type['SIOHandler'], sid: str, data: typing.Any, event: str):
-		logger.info(f"Event [{event}], sid: {sid}")
+	def handle(cls: typing.Type['SIOHandler'], sid: str, data=None, event=None):
+		logger.info(f"Incoming [{event}], sid: {sid}")
 		instance = cls()
 		try:
 			instance._handle(sid, data)
@@ -31,7 +31,7 @@ class SIOHandler(ABC):
 
 			cls._sio.emit(
 				Events.errors,
-				{
+				data={
 					"type": ex.__class__.__name__,
 					"message": message
 				},

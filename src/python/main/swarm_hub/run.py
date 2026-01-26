@@ -1,5 +1,5 @@
 # run_gevent_debug.py
-
+#
 # from gevent import monkey
 # monkey.patch_all()
 
@@ -12,14 +12,13 @@ from swarm_hub.wsgi_sio import application
 
 
 def main():
-    server = WSGIServer(("0.0.0.0", 8000), application)
-    print("Starting gevent debug server on http://0.0.0.0:8000")
-    server.serve_forever()
+	server = WSGIServer(("0.0.0.0", 8000), application)
+	print("Starting gevent debug server on http://0.0.0.0:8000")
+	# run_with_reloader(server.serve_forever())
+	server.serve_forever()
 
 
 if __name__ == "__main__":
-    # Ensure Django settings are set
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "swarm_hub.settings")
+	os.environ.setdefault("DJANGO_SETTINGS_MODULE", "swarm_hub.settings")
 
-    # This wraps main() in Django's file-watching reloader
-    run_with_reloader(main)
+	run_with_reloader(main)

@@ -5,7 +5,7 @@ from django.db import models
 
 class Session(models.Model):
 
-	id: str = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+	id: uuid.UUID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	sid: str = models.CharField(max_length=255)
 	branch: str = models.CharField(max_length=100)
 	model: str = models.CharField(max_length=100)

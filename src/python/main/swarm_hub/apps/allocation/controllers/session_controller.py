@@ -5,7 +5,6 @@ import typing
 from apps.allocation.models import Session, Worker
 from di.core_providers import CoreProviders
 from lib.controller import ThreadController
-from utils.session_repository.session_repository import SessionRepository
 
 
 class SessionController(ThreadController):
