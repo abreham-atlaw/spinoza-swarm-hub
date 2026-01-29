@@ -10,13 +10,13 @@ class CoreConfig(AppConfig):
 	@staticmethod
 	def __start_controllers(*args, **kwargs):
 		import os
-		if os.environ.get("RUN_MAIN") != "true":
-			return
 
 		from di.core_providers import CoreProviders
 		controllers = CoreProviders.provide_thread_controllers()
 
 		for controller in controllers:
+			if controller.is_alive():
+				continue
 			logger.info(f"Starting {controller.__class__.__name__}")
 			controller.start()
 

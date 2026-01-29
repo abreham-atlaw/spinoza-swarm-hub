@@ -11,3 +11,6 @@ django_app = get_wsgi_application()
 
 # Wrap Django inside Socket.IO middleware
 application = socketio.WSGIApp(sio, django_app)
+
+
+from .urls import *

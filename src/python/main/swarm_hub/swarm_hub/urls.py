@@ -19,6 +19,7 @@ import importlib
 from django.contrib import admin
 from django.urls import path
 
+from di.misc_providers import logger
 from lib.sio.sio_utils import SIOUtils
 from swarm_hub.sio import sio
 
@@ -33,6 +34,7 @@ sio_mapping_modules = [
 ]
 
 for module in sio_mapping_modules:
+	logger.info(f"Attaching sio_mapping for {module}")
 	mod = importlib.import_module(module)
 	SIOUtils.map_events(
 		sio,
