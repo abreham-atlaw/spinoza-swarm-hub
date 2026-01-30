@@ -32,3 +32,7 @@ class Queue(ABC, typing.Generic[T]):
 	@abstractmethod
 	def clear(self):
 		pass
+
+	@abstractmethod
+	def __len__(self):
+		pass

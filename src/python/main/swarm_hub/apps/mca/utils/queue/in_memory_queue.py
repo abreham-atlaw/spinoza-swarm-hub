@@ -21,3 +21,6 @@ class InMemoryQueue(Queue, typing.Generic[T]):
 
 	def clear(self):
 		self.__queue = []
+
+	def __len__(self):
+		return len(self.__queue)
