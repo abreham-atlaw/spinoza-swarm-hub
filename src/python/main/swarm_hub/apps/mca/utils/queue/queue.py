@@ -28,3 +28,7 @@ class Queue(ABC, typing.Generic[T]):
 	@abstractmethod
 	def is_empty(self) -> bool:
 		pass
+
+	@abstractmethod
+	def clear(self):
+		pass

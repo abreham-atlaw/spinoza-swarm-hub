@@ -18,3 +18,6 @@ class InMemoryQueue(Queue, typing.Generic[T]):
 
 	def is_empty(self) -> bool:
 		return len(self.__queue) == 0
+
+	def clear(self):
+		self.__queue = []

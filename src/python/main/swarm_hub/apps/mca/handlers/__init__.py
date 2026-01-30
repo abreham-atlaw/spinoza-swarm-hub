@@ -3,3 +3,4 @@ from .generic_worker_handler import GenericWorkerHandler
 from .queue_handler import QueueHandler
 from .select_handler import SelectHandler
 from .backpropagate_handler import BackpropagateHandler
+from .clear_queue_handler import ClearQueueHandler

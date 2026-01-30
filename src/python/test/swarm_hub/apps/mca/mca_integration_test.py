@@ -35,6 +35,8 @@ class QueenClientThread(Thread):
 
 	def __handle_backpropagate(self, state: dict):
 		self._log(f"Backpropagate Received: {state}")
+		if random.random() < 0.5:
+			self.__clear_queue()
 
 	def __handle_mca_start(self, data = None):
 		self.__queue_states()
@@ -48,6 +50,12 @@ class QueenClientThread(Thread):
 				"queue",
 				data=state
 			)
+
+	def __clear_queue(self):
+		self._log("Clearing Queue...")
+		self._client.emit(
+			"clear-queue",
+		)
 
 	def __create_session(self):
 		self._client.emit(
