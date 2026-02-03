@@ -28,6 +28,9 @@ class SessionRepository(ABC):
 			self._get_sessions()
 		))
 
+	def activate_session(self, session: Session):
+		session.is_active = True
+
 	def disconnect_session(self, session: Session):
 		session.is_active = False
 
@@ -36,6 +39,15 @@ class SessionRepository(ABC):
 			lambda session: session.sid == sid,
 			self.get_sessions()
 		))
+
+	def get_session_by_id(self, id: str) -> Session:
+		return next(filter(
+			lambda session: session.id.hex == id,
+			self._get_sessions()
+		))
+
+	def set_session_sid(self, session: Session, sid: str):
+		session.sid = sid
 
 	def get_worker_by_sid(self, sid: str) -> Worker:
 		return next(filter(

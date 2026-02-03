@@ -1,6 +1,8 @@
 import typing
 
-from apps.allocation.models import Worker
+from django.db.models import Model
+
+from apps.allocation.models import Worker, Session
 from apps.allocation.utils.session_repository import SessionRepository
 from di.core_providers import CoreProviders
 from lib.sio import SIOHandler
@@ -22,5 +24,6 @@ class DisconnectHandler(SIOHandler):
 		for func in [self.__disconnect_session, self.__disconnect_worker]:
 			try:
 				func(sid)
-			except StopIteration:
+				break
+			except (StopIteration, Session.DoesNotExist, Worker.DoesNotExist):
 				pass

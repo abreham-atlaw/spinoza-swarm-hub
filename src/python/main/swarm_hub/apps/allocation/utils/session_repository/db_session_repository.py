@@ -21,8 +21,16 @@ class DBSessionRepository(SessionRepository):
 	def _get_sessions(self) -> typing.List[Session]:
 		return Session.objects.all()
 
+	def activate_session(self, session: Session):
+		super().activate_session(session)
+		session.save()
+
 	def disconnect_session(self, session: Session):
 		super().disconnect_session(session)
+		session.save()
+
+	def set_session_sid(self, session: Session, sid: str):
+		super().set_session_sid(session, sid)
 		session.save()
 
 	def get_workers(self) -> typing.List[Worker]:

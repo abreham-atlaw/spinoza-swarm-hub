@@ -23,5 +23,8 @@ class CreateSessionHandler(SIOHandler):
 		self.__sio.enter_room(sid, session.room)
 		self.__sio.emit(
 			"mca-start",
+			data={
+				"id": session.id.hex
+			},
 			to=session.sid
 		)

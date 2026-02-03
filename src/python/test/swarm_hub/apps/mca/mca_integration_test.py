@@ -26,6 +26,7 @@ class QueenClientThread(Thread):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self._client = Client(logger=True)
+		self.__id = None
 		self._client.on(
 			"mca-start", self.__handle_mca_start
 		)
@@ -35,21 +36,43 @@ class QueenClientThread(Thread):
 
 	def __handle_backpropagate(self, state: dict):
 		self._log(f"Backpropagate Received: {state}")
+
 		if random.random() < 0.5:
 			self.__clear_queue()
 
 	def __handle_mca_start(self, data = None):
+		id = data["id"]
+		self.__id = id
+		self._log(f"mca-start Received with id={self.__id}")
+		self.__queue_states()
+
+	def __handle_mca_resume(self, data = None):
 		self.__queue_states()
 
 	def _log(self, message):
 		logger.info(f"[Queen]{message}")
 
+	def __reconnect(self):
+		self._log("Disconnecting and Reconnecting...")
+		self._client.disconnect()
+		self._client.connect(
+			"http://127.0.0.1:8888"
+		)
+		self._client.emit(
+			"queen-reconnect",
+			data={
+				"id": self.__id
+			}
+		)
+
 	def __queue_states(self):
-		for state in self.QUEUE_STATES:
+		for i, state in enumerate(self.QUEUE_STATES):
 			self._client.emit(
 				"queue",
 				data=state
 			)
+			if i == 1:
+				self.__reconnect()
 
 	def __clear_queue(self):
 		self._log("Clearing Queue...")

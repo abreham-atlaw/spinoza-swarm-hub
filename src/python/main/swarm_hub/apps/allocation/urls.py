@@ -1,7 +1,7 @@
 from django.urls import path
 
 from apps.allocation.handlers import RegisterWorkerHandler, SetupCompleteHandler, CreateSessionHandler, \
-	DisconnectHandler
+	DisconnectHandler, QueenReconnectHandler
 from apps.allocation.views import CreateSessionView
 
 urlpatterns = [
@@ -11,6 +11,7 @@ urlpatterns = [
 
 sio_mapping = {
 	"create-session": CreateSessionHandler,
+	"queen-reconnect": QueenReconnectHandler,
 	"register-worker": RegisterWorkerHandler,
 	"setup-complete": SetupCompleteHandler,
 	"disconnect": DisconnectHandler,

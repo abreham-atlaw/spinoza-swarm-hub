@@ -2,3 +2,4 @@ from .create_session_handler import CreateSessionHandler
 from .register_worker_handler import RegisterWorkerHandler
 from .setup_complete_handler import SetupCompleteHandler
 from .disconnect_handler import DisconnectHandler
+from .queen_reconnect_handler import QueenReconnectHandler
