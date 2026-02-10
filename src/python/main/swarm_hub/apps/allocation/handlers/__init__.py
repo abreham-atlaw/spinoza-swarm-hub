@@ -3,3 +3,4 @@ from .register_worker_handler import RegisterWorkerHandler
 from .setup_complete_handler import SetupCompleteHandler
 from .disconnect_handler import DisconnectHandler
 from .queen_reconnect_handler import QueenReconnectHandler
+from .worker_reconnect_handler import WorkerReconnectHandler

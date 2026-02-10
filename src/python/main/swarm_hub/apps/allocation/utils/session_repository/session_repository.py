@@ -55,12 +55,21 @@ class SessionRepository(ABC):
 			self.get_workers()
 		))
 
+	def get_worker_by_id(self, id: str) -> Worker:
+		return next(filter(
+			lambda worker: worker.id.hex == id,
+			self.get_workers()
+		))
+
 	def allocate_worker(self, worker: Worker, session: Session):
 		worker.session = session
 		worker.stage = Worker.Stage.allocated
 
 	def set_worker_stage(self, worker: Worker, stage: int):
 		worker.stage = stage
+
+	def set_worker_sid(self, worker: Worker, sid: str):
+		worker.sid = sid
 
 	def get_free_workers(self, branch: str = None) -> typing.List[Worker]:
 		return list(filter(

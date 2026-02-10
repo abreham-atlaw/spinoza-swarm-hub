@@ -40,7 +40,10 @@ class WorkerAllocationController(ThreadController):
 		self.__server.enter_room(worker.sid, worker.session.room)
 		self.__server.emit(
 			Events.mca_start,
-			to=worker.sid
+			data={
+				"id": worker.id.hex
+			},
+			to=worker.sid,
 		)
 		self.__session_repository.set_worker_stage(worker, Worker.Stage.running)
 

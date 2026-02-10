@@ -16,7 +16,7 @@ class Worker(models.Model):
 		disconnected = 5
 
 
-	id: str = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+	id: uuid.UUID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	branch: str = models.CharField(max_length=255)
 	sid: str = models.CharField(max_length=255)
 	session: Session = models.ForeignKey(Session, on_delete=models.CASCADE, null=True)

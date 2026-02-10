@@ -1,5 +1,6 @@
 import typing
 
+from apps.allocation.events import Events
 from apps.allocation.models import Session
 from apps.allocation.serializers import CreateSessionSerializer
 from apps.allocation.utils.session_repository import SessionRepository
@@ -22,7 +23,7 @@ class CreateSessionHandler(SIOHandler):
 
 		self.__sio.enter_room(sid, session.room)
 		self.__sio.emit(
-			"mca-start",
+			Events.mca_start,
 			data={
 				"id": session.id.hex
 			},

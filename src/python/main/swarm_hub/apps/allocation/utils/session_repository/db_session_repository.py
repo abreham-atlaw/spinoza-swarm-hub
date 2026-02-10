@@ -41,10 +41,19 @@ class DBSessionRepository(SessionRepository):
 	def get_worker_by_sid(self, sid: str) -> Worker:
 		return Worker.objects.get(sid=sid)
 
+	def get_worker_by_id(self, id: str):
+		return Worker.objects.get(
+			id=id
+		)
+
 	def allocate_worker(self, worker: Worker, session: Session):
 		super().allocate_worker(worker, session)
 		worker.save()
 
 	def set_worker_stage(self, worker: Worker, stage: int):
 		super().set_worker_stage(worker, stage)
+		worker.save()
+
+	def set_worker_sid(self, worker: Worker, sid: str):
+		super().set_worker_sid(worker, sid)
 		worker.save()
