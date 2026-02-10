@@ -20,6 +20,11 @@ class QueenReconnectHandler(SIOHandler):
 		self.__session_repository.set_session_sid(session, sid)
 		self.__session_repository.activate_session(session)
 
+		self._sio.enter_room(
+			sid,
+			session.room
+		)
+
 		self._sio.emit(
 			"mca-resume",
 			to=sid
