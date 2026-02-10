@@ -36,3 +36,7 @@ class Queue(ABC, typing.Generic[T]):
 	@abstractmethod
 	def __len__(self):
 		pass
+
+	@abstractmethod
+	def __contains__(self, item) -> bool:
+		pass

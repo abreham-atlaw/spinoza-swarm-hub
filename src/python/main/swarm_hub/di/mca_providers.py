@@ -31,7 +31,9 @@ class MCAProviders:
 	@staticmethod
 	@CacheDecorators.singleton()
 	def provide_node_queue(session_id: Session) -> Queue[Node]:
-		repository: Queue[Node] = InMemoryQueue()
+		repository: Queue[Node] = InMemoryQueue(
+			compare_fn=lambda node1, node2: node1.data == node2.data
+		)
 		for trigger in MCAProviders.provide_node_queue_triggers():
 			repository.add_queue_trigger(trigger)
 		return repository

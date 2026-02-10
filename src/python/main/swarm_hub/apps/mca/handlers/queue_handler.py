@@ -5,7 +5,6 @@ from rest_framework.exceptions import ValidationError
 from apps.allocation.models import Session
 from apps.mca.handlers import GenericQueenHandler
 from apps.mca.models import Node
-from apps.mca.utils.node_repository import MCARepository
 from di.mca_providers import MCAProviders
 
 
@@ -22,4 +21,7 @@ class QueueHandler(GenericQueenHandler):
 			data=data
 		)
 
-		node_queue.queue(node)
+		if node not in node_queue:
+			node_queue.queue(node)
+		else:
+			pass
