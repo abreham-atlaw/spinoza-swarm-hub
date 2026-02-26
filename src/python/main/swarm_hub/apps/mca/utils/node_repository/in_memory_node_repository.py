@@ -1,3 +1,5 @@
+import typing
+
 from apps.mca.exceptions import QueueEmptyException
 from apps.mca.models import Node
 from apps.mca.utils.node_repository import MCARepository
@@ -8,6 +10,7 @@ class InMemoryMCARepository(MCARepository):
 	def __init__(self):
 		super(InMemoryMCARepository, self).__init__()
 		self.__queue = []
+		self.__backpropagate_nodes = []
 
 	def queue_node(self, node: Node):
 		self.__queue.append(node)

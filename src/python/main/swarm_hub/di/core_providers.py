@@ -2,6 +2,7 @@ import typing
 
 from lib.cache.decorators import CacheDecorators
 from lib.controller import ThreadController
+from swarm_hub import settings
 
 
 class CoreProviders:
@@ -23,9 +24,13 @@ class CoreProviders:
 	def provide_thread_controllers() -> typing.List[ThreadController]:
 		from apps.allocation.controllers import SessionController
 		from apps.allocation.controllers import WorkerAllocationController
+		from apps.mca.controllers import BackpropagationController
 
 		return [
 			SessionController(),
-			WorkerAllocationController()
+			WorkerAllocationController(),
+			BackpropagationController(
+				wait_time=settings.BACKPROPAGATE_WAIT_TIME
+			)
 		]
 

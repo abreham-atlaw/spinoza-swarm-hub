@@ -36,7 +36,12 @@ class QueenClientThread(Thread):
 
 	def __handle_backpropagate(self, state: dict):
 		self._log(f"Backpropagate Received: {state}")
-
+		self._client.emit(
+			"backpropagate-confirm",
+			data={
+				"id": state["id"]
+			}
+		)
 		if random.random() < 0.5:
 			self.__clear_queue()
 
@@ -71,8 +76,8 @@ class QueenClientThread(Thread):
 				"queue",
 				data=state
 			)
-			if i == 1:
-				self.__reconnect()
+			# if i == 1:
+			# 	self.__reconnect()
 
 	def __clear_queue(self):
 		self._log("Clearing Queue...")

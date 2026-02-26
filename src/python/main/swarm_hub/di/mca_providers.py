@@ -2,6 +2,7 @@ import typing
 
 from apps.allocation.models import Worker, Session
 from apps.mca.models import Node
+from apps.mca.utils.backpropagate_repository import InMemoryBackpropagateRepository, BackpropagateRepository
 from apps.mca.utils.queue import Queue, InMemoryQueue
 from lib.cache.decorators import CacheDecorators
 
@@ -45,3 +46,9 @@ class MCAProviders:
 		for trigger in MCAProviders.provide_worker_queue_triggers():
 			repository.add_queue_trigger(trigger)
 		return repository
+
+
+	@staticmethod
+	@CacheDecorators.singleton()
+	def provide_backpropagate_repository() -> BackpropagateRepository:
+		return InMemoryBackpropagateRepository()
