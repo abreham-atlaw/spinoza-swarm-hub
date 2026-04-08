@@ -4,8 +4,8 @@ from rest_framework import serializers
 class CreateSessionSerializer(serializers.Serializer):
 
 	branch = serializers.CharField()
-	model = serializers.CharField()
-	model_temperature = serializers.CharField()
-	model_alpha = serializers.CharField(allow_null=True)
 
-	
+	def to_internal_value(self, data):
+		out = super().to_internal_value(data)
+		out["configs"] = data
+		return out
