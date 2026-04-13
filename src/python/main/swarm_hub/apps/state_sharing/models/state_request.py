@@ -1,10 +1,8 @@
 from django.db import models
 
 from apps.allocation.models import Worker
+from .abstract_state_request import AbstractStateRequest
 
-
-class StateRequest(models.Model):
+class StateRequest(AbstractStateRequest):
 
 	state_id: str = models.CharField(max_length = 255)
-	requester_sid: str = models.CharField(max_length = 255)
-	is_responded: bool = models.BooleanField(default = False)

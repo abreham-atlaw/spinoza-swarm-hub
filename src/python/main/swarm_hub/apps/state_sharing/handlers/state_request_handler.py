@@ -1,7 +1,6 @@
 import typing
 
-from apps.allocation.models import Session, Worker
-from apps.allocation.utils.session_repository import SessionRepository
+from apps.allocation.models import Session
 from apps.state_sharing.events import Events
 from apps.state_sharing.models import StateRequest
 from .state_sharing_handler import StateSharingHandler
