@@ -5,3 +5,4 @@ from .select_handler import SelectHandler
 from .backpropagate_handler import BackpropagateHandler
 from .clear_queue_handler import ClearQueueHandler
 from .confirm_backpropagation_handler import ConfirmBackpropagationHandler
+from .reset_session_handler import ResetSessionHandler

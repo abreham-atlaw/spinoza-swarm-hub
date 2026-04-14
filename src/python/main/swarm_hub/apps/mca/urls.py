@@ -1,5 +1,5 @@
 from apps.mca.handlers import QueueHandler, SelectHandler, BackpropagateHandler, ClearQueueHandler, \
-	ConfirmBackpropagationHandler
+	ConfirmBackpropagationHandler, ResetSessionHandler
 
 sio_mapping = {
 	"queue": QueueHandler,
@@ -7,4 +7,5 @@ sio_mapping = {
 	"select": SelectHandler,
 	"backpropagate": BackpropagateHandler,
 	"backpropagate-confirm": ConfirmBackpropagationHandler,
+	"session-reset": ResetSessionHandler
 }

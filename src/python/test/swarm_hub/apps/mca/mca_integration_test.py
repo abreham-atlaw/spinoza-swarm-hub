@@ -1,6 +1,7 @@
 import os
 import random
 import threading
+import time
 import unittest
 from multiprocessing import Process
 from threading import Thread
@@ -44,6 +45,7 @@ class QueenClientThread(Thread):
 		)
 		if random.random() < 0.5:
 			self.__clear_queue()
+		self.__reset_session()
 
 	def __handle_mca_start(self, data = None):
 		id = data["id"]
@@ -96,6 +98,12 @@ class QueenClientThread(Thread):
 			}
 		)
 
+	def __reset_session(self):
+		self._log(f"Emitting Reset Session")
+		self._client.emit(
+			"session-reset",
+		)
+
 	def _run_tasks(self):
 		pass
 
@@ -133,6 +141,9 @@ class WorkerClientThread(Thread):
 		self._client.on(
 			"select", self.__handle_select
 		)
+		self._client.on(
+			"session-reset", self.__handle_reset_session
+		)
 
 		self.__id = random.randint(0, 100)
 
@@ -159,6 +170,9 @@ class WorkerClientThread(Thread):
 		self._client.emit(
 			"select"
 		)
+
+	def __handle_reset_session(self):
+		self._log(f"Received Reset Session")
 
 	def _log(self, message):
 		logger.info(f"[Worker-{self.__id}]{message}")
