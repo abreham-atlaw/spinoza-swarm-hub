@@ -26,5 +26,4 @@ class DBStateRequestRepository(StateRequestRepository):
 	def get_bulk_by_id(self, id: str) -> BulkStateRequest:
 		return BulkStateRequest.objects.get(
 			id=id,
-			is_responded=False
 		)
